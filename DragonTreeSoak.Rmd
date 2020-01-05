@@ -9,15 +9,16 @@ software: 'RStudio: Version 1.1.463 – © 2009-2018 RStudio, Inc. R version: `r
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(out.width='1.0\\linewidth')
+knitr::opts_chunk$set(fig.align='center', out.width=600)
 ```
 
 ```{r include=FALSE}
 options(scipen=999)
-opts_chunk$set(fig.align='center', out.width=600)
+
 set.seed(1356)
 ```
 
-```{r}
+```{r message=FALSE}
 library(knitr)
 library(reshape2)
 library(rmarkdown)
@@ -27,49 +28,50 @@ library(stringr)
 library(simba)
 ```
 
-#This R code runs ordinations using the 2018 Dragon Tree Soak invertebrate data with that from other WA arid zone wetlands. The other data is as used in Quinlan and Pinder's 2014 Goldfields paper
+#This R Markdown code runs ordinations using the 2018 Dragon Tree Soak invertebrate data with that from other WA arid zone wetlands. The other data is as used in Quinlan and Pinder's 2014 Goldfields paper
 
 ##Import invertebrate data
 ```{r}
 data <- t(as.data.frame(read.csv("all_aridzone_inverts.csv", row.names=1)))
 ```
 
-###remove JLA14, JLA17 and JLA18 as outliers (identified during previous analyses of the Goldfields data by Quinlan and Pinder 2014)
+###Remove JLA14, JLA17 and JLA18 as outliers (identified during previous analyses of the Goldfields data by Quinlan and Pinder 2014)
 ```{r}
 delete <- c("JLA01523.08.2004A1", "JLA0197.08.2004A1", "JLA0187.08.2004A1")
-delete
 data <- data[!rownames(data) %in% delete, ]
 ```
 
-
+## Perform nMDS ordination analysis
 ```{r}
 data.MDS <- metaMDS(data, distance = "bray")
 plot(data.MDS, display="sites", type="t")
 ```
 
-
+##Import file with names of the surveys for each site
 ```{r}
 survey <- read.csv("survey2.csv")
 row.names(survey) <- survey[, 1]
 survey <- survey[!rownames(survey) %in% delete, ]
 ```
 
-
+##Extract nMDS coordinates for plotting
 ```{r}
 data.MDS.pts <- as.data.frame(scores(data.MDS, display = "sites"))
 data.MDS.pts$sample <- row.names(data.MDS.pts)
 ```
 
+##Merge nMDS coordinates with the survey names
 ```{r}
 data.MDS.pts <- merge(data.MDS.pts, survey, by.x="sample", by.y="sample")
 ```
 
+##Create ordination plot with sites coloured by survey
 ```{r}
 p <- ggplot(data.MDS.pts, aes(x=NMDS1, y=NMDS2)) + 
   geom_point (aes(fill=survey), colour="black", pch=21, size=7) + coord_fixed() +
   scale_fill_manual(values=c("red","cadetblue1", "orange", "yellow", "chartreuse4", "cadetblue4", "blue4")) +
   scale_colour_manual(values=c("black", "black")) +
-  scale_x_continuous(limits=c(-3, 3)) +
+  scale_x_continuous(limits=c(-2.5, 2)) +
   scale_y_continuous(limits=c(-2, 2)) +
   theme_bw() +
   theme(panel.border = element_rect(color = "black", size=1)) +
