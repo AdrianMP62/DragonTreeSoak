@@ -8,13 +8,13 @@ software: 'RStudio: Version 1.1.463 – © 2009-2018 RStudio, Inc. R version: `r
     
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy = TRUE)
 knitr::opts_chunk$set(out.width='1.0\\linewidth')
 knitr::opts_chunk$set(fig.align='center', out.width=600)
 ```
 
 ```{r include=FALSE}
 options(scipen=999)
-
 set.seed(1356)
 ```
 
