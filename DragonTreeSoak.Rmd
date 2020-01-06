@@ -4,6 +4,8 @@ author: "Adrian Pinder"
 date and time: '`r Sys.time()`'
 output: html_document
 software: 'RStudio: Version 1.1.463 – © 2009-2018 RStudio, Inc. R version: `r getRversion()`'
+editor_options: 
+  chunk_output_type: console
 ---
     
 ```{r setup, include=FALSE}
@@ -15,7 +17,7 @@ knitr::opts_chunk$set(fig.align='center', out.width=600)
 
 ```{r include=FALSE}
 options(scipen=999)
-set.seed(1356)
+set.seed(4510)
 ```
 
 ```{r message=FALSE}
