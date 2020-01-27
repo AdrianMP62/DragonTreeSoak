@@ -73,7 +73,7 @@ p <- ggplot(data.MDS.pts, aes(x=NMDS1, y=NMDS2)) +
   geom_point (aes(fill=survey), colour="black", pch=21, size=7) + coord_fixed() +
   scale_fill_manual(values=c("red","cadetblue1", "orange", "yellow", "chartreuse4", "cadetblue4", "blue4")) +
   scale_colour_manual(values=c("black", "black")) +
-  scale_x_continuous(limits=c(-2.5, 2)) +
+  scale_x_continuous(limits=c(-2.5, 2.5)) +
   scale_y_continuous(limits=c(-2, 2)) +
   theme_bw() +
   theme(panel.border = element_rect(color = "black", size=1)) +
